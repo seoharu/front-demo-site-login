@@ -1,4 +1,4 @@
-# [WSD-02]-vue: Front-End Demo Site 개발
+# [WSD-04] : WSD-02 Project (vue: Front-End Demo Site 개발) Upgrade!!
 ## # 🎬 Movie Streaming Platform
 Netflix 스타일의 영화 스트리밍 플랫폼의 프론트엔드 데모 사이트입니다. TMDB API를 활용하여 영화 정보를 제공하고, 사용자 맞춤형 위시리스트 기능을 제공합니다.
 
@@ -7,7 +7,7 @@ Netflix 스타일의 영화 스트리밍 플랫폼의 프론트엔드 데모 사
 - 💫 반응형 디자인 (모바일/태블릿/데스크톱)
 - 🎨 애니메이션 효과가 적용된 UI/UX
 - 📱 모바일 최적화
-- 🔒 사용자 인증 (로그인/회원가입)
+- 🔒 사용자 인증 (로그인/회원가입) TMDB API -> Kakao Login 구현
 - 💝 위시리스트 기능
 
 ## 🛠 기술 스택
