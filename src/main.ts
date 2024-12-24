@@ -3,6 +3,10 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import { createPinia } from 'pinia'
+
+const app = createApp(App)
+const pinia = createPinia()
 
 // Font Awesome imports
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -11,6 +15,8 @@ import { faFilm, faUser, faSignOutAlt, faSignInAlt, faTable, faList } from '@for
 
 // Add icons to the library
 library.add(faFilm, faUser, faSignOutAlt, faSignInAlt, faTable, faList)
+
+app.use(pinia)
 
 // Create Vue app instance and register FontAwesomeIcon globally
 createApp(App)

@@ -24,6 +24,26 @@
       로그인
     </FormButton>
 
+    <!-- 구분선 추가 -->
+    <div class="divider">
+      <span>또는</span>
+    </div>
+
+    <!-- 카카오 로그인 버튼 -->
+    <div class="kakao-login-wrapper">
+      <button
+        type="button"
+        class="kakao-login-button"
+        @click="handleKakaoLogin"
+        :disabled="isKakaoLoading"
+      >
+        <img
+          src="@/assets/kakao_login_medium_narrow.png"
+          alt="카카오 로그인"
+        />
+      </button>
+    </div>
+
     <button
       type="button"
       class="toggle-button"
@@ -40,8 +60,11 @@ import FormInput from '@/components/common/Form/FormInput.vue'
 import FormButton from '@/components/common/Form/FormButton.vue'
 import FormCheckbox from '@/components/common/Form/FormCheckbox.vue'
 import { useAuth } from '@/composables/useAuth'
+import { useAuthStore } from '@/store/auth'
 
 const { login } = useAuth()
+const authStore = useAuthStore()
+
 // eslint-disable-next-line no-undef
 const emit = defineEmits<{
   (e: 'toggle-auth'): void
@@ -49,6 +72,7 @@ const emit = defineEmits<{
 }>()
 
 const isLoading = ref(false)
+const isKakaoLoading = ref(false)
 
 const form = reactive({
   email: '',
@@ -82,6 +106,22 @@ const handleSubmit = async () => {
     isLoading.value = false
   }
 }
+
+
+const handleKakaoLogin = async () => {
+  try {
+    isKakaoLoading.value = true
+    const success = await authStore.loginWithKakao()
+    if (success) {
+      emit('login-success')
+    }
+  } catch (error) {
+    console.error('Kakao login failed:', error)
+  } finally {
+    isKakaoLoading.value = false
+  }
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -95,7 +135,78 @@ const handleSubmit = async () => {
     font-weight: 600;
   }
 }
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 16px 0;
 
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 20px);
+    height: 1px;
+    background-color: #e2e8f0;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  span {
+    background-color: white;
+    padding: 0 10px;
+    color: #64748b;
+    font-size: 12px;
+  }
+}
+
+.kakao-login-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.kakao-login-button {
+  width: 60%; // 너비 줄임
+  max-width: 200px; // 최대 너비 설정
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border-radius: 6px;
+  overflow: hidden;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block; // 이미지 하단 여백 제거
+    border-radius: 6px;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
 .toggle-button {
   width: 100%;
   margin-top: 16px;
