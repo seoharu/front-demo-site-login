@@ -21,16 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-       # 4. 환경 변수 추가
-      - name: Setup environment variables
-        run: |
-         echo "VUE_APP_KAKAO_CLIENT_ID=${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}" >> .env.prod
-         echo "VUE_APP_TMDB_API_KEY=${{ secrets.VUE_APP_TMDB_API_KEY }}" >> .env.prod
-
       - name: Build
         run: npm run build:prod
         env:
-            NODE_ENV: production
+          VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
+          NODE_ENV: production
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
