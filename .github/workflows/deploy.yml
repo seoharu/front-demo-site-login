@@ -22,7 +22,14 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            npm run build:prod
+          elif [ "${{ github.ref_name }}" == "develop" ]; then
+            npm run build:dev
+          else
+            echo "No build executed"
+          fi
         env:
           VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
           VUE_APP_TMDB_API_KEY: ${{ secrets.VUE_APP_TMDB_API_KEY }}
