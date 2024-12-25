@@ -27,7 +27,7 @@ jobs:
          echo "VUE_APP_KAKAO_CLIENT_ID=${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}" >> .env.prod
          echo "VUE_APP_TMDB_API_KEY=${{ secrets.VUE_APP_TMDB_API_KEY }}" >> .env.prod
 
-      - nname: Build
+      - name: Build
         run: npm run build:prod
         env:
             NODE_ENV: production
