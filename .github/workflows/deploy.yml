@@ -26,7 +26,6 @@ jobs:
           echo "VUE_APP_KAKAO_CLIENT_ID=${{ vars.VUE_APP_KAKAO_CLIENT_ID }}" >> .env.production
           npm run build:prod
         env:
-          VUE_APP_KAKAO_CLIENT_ID: ${{ vars.VUE_APP_KAKAO_CLIENT_ID }}
           NODE_ENV: production
 
       - name: Deploy to GitHub Pages
