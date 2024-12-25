@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: npm run build:prod
         env:
-          VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
+          VUE_APP_KAKAO_CLIENT_ID: ${{ variables.VUE_APP_KAKAO_CLIENT_ID }}
           NODE_ENV: production
 
       - name: Deploy to GitHub Pages

@@ -11,6 +11,7 @@ export const kakaoAuth = {
       // 이미 초기화되었는지 확인
       if (!window.Kakao.isInitialized()) {
         const kakaoClientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
+        console.log('Using Kakao Client ID:', kakaoClientId); // 디버깅용
 
         if (!kakaoClientId) {
           console.error('Kakao Client ID not found in environment variables');
