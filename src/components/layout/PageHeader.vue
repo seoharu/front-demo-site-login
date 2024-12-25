@@ -57,8 +57,18 @@
             class="dropdown-menu"
           >
             <div class="dropdown-header">
-              {{ currentUser }}
+<!--              {{ currentUser }}-->
+              <div class="profile-container">
+                <div class="profile-info">
+                  <font-awesome-icon icon="fas fa-id-badge" class="profile-icon" />
+                  <span class="profile-name">{{ currentUser }}</span>
+
+                </div>
+                <span class="welcome-text">님 환영합니다</span>
+              </div>
             </div>
+
+
             <button
               @click="handleLogout"
               class="dropdown-item"
@@ -83,6 +93,59 @@
   height: 60px;
   z-index: 1001;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+/* 프로필 정보 영역 */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 프로필 이름 */
+.profile-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #60A5FA;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+}
+
+.profile-container:hover .profile-name {
+  color: #3B82F6;
+}
+
+/* 프로필 아이콘 */
+.profile-icon {
+  font-size: 1.125rem;
+  color: #60A5FA;
+  transition: all 0.3s ease;
+}
+
+.profile-container:hover .profile-icon {
+  color: #3B82F6;
+  transform: rotate(12deg);
+}
+
+/* 환영 메시지 */
+.welcome-text {
+  font-size: 0.875rem;
+  color: #9CA3AF;
+}
+
+/* 드롭다운 헤더 기본 스타일 유지 */
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .header-initial {
@@ -268,7 +331,7 @@
   position: absolute;
   right: 0;
   top: calc(100% + 0.5rem);
-  width: 200px;
+  width: 160px;
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -280,6 +343,8 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0.5rem 0.5rem 0 0;
   font-size: 0.875rem;
 }
 
@@ -292,6 +357,18 @@
   background: transparent;
   border: none;
   cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  width: 200px;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown-item:hover {
@@ -463,9 +540,9 @@ import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faFilm, faUser, faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { faFilm, faUser, faSignOutAlt, faSignInAlt, faIdBadge } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faFilm, faUser, faSignOutAlt, faSignInAlt)
+library.add(faFilm, faUser, faSignOutAlt, faSignInAlt, faIdBadge)
 
 defineComponent({
   name: 'PageHeader'
@@ -481,6 +558,11 @@ const {
   menuItems,
   checkAuth
 } = useAuth()
+
+// 디버깅을 위한 watch 추가
+watch(() => currentUser.value, (newValue) => {
+  console.log('currentUser changed:', newValue);
+});
 
 const isUserMenuOpen = ref(false)
 

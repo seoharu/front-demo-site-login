@@ -2,9 +2,13 @@ import axios from 'axios'
 
 // API 키 관리
 const getApiKey = () => {
-  const apiKey = localStorage.getItem('TMDb-Key')
+  // const apiKey = localStorage.getItem('TMDb-Key')
+  console.log('전체 환경변수:', process.env)  // 모든 환경변수 출력
+  const apiKey = process.env.VUE_APP_TMDB_API_KEY
+  console.log('환경변수 전체:', process.env.NODE_ENV) // 디버깅용
+  console.log('TMDB API KEY:', apiKey) // 디버깅용
   if (!apiKey) {
-    throw new Error('API 키가 없습니다. 로그인이 필요합니다.')
+    throw new Error('TMDB API 키가 환경 변수에 설정되지 않았습니다.')
   }
   return apiKey
 }
@@ -35,9 +39,9 @@ apiClient.interceptors.request.use(
 const handleApiError = (error) => {
   if (error.response) {
     console.error('API 에러:', error.response.data)
-    if (error.response.status === 401) {
-      localStorage.removeItem('TMDb-Key')
-    }
+    // if (error.response.status === 401) {
+    //   localStorage.removeItem('TMDb-Key')
+    // }
   }
   throw error
 }

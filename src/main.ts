@@ -1,26 +1,32 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
-import store from './store'
-import { createPinia } from 'pinia'
+import { createApp } from 'vue';
+import App from './App.vue';
+import './registerServiceWorker';
+import router from './router';
+import store from './store';
+import { createPinia } from 'pinia';
 
-const app = createApp(App)
-const pinia = createPinia()
 
-// Font Awesome imports
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faFilm, faUser, faSignOutAlt, faSignInAlt, faTable, faList } from '@fortawesome/free-solid-svg-icons'
+// Kakao SDK 초기화
+if (typeof window.Kakao !== 'undefined') {
+  const kakao = window.Kakao;
+  if (!kakao.isInitialized()) {
+    const kakaoKey = process.env.VUE_APP_KAKAO_CLIENT_ID;
+    if (kakaoKey) {
+      kakao.init(kakaoKey);
+      console.log('Kakao SDK initialized:', kakao.isInitialized());
+    } else {
+      console.error('Kakao JavaScript Key is not provided in the environment variables.');
+    }
+  }
+}
 
-// Add icons to the library
-library.add(faFilm, faUser, faSignOutAlt, faSignInAlt, faTable, faList)
+// Create Vue app instance
+const app = createApp(App);
 
-app.use(pinia)
+// Register plugins and components
+app.use(router);
+app.use(store);
+app.use(createPinia());
 
-// Create Vue app instance and register FontAwesomeIcon globally
-createApp(App)
-  .component('font-awesome-icon', FontAwesomeIcon)
-  .use(router)
-  .use(store)
-  .mount('#app')
+// Mount the app
+app.mount('#app');
