@@ -10,7 +10,7 @@ export const kakaoAuth = {
 
       // 이미 초기화되었는지 확인
       if (!window.Kakao.isInitialized()) {
-        const kakaoClientId = import.meta.env.VUE_APP_KAKAO_CLIENT_ID;
+        const kakaoClientId = process.env.VUE_APP_KAKAO_CLIENT_ID;
 
         if (!kakaoClientId) {
           console.error('Kakao Client ID not found in environment variables');
