@@ -1,41 +1,45 @@
+name: Deploy Vue to GitHub Pages
 
-name: Deploy to GitHub Pages
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm install
 
       - name: Build
         run: |
-          if [ "${{ github.ref_name }}" == "main" ]; then
-            npm run build:prod
-          elif [ "${{ github.ref_name }}" == "develop" ]; then
-            npm run build:dev
-          else
-            echo "No build executed"
-          fi
+          npm run build
+          cp dist/index.html dist/404.html
         env:
-          VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
-          VUE_APP_TMDB_API_KEY: ${{ secrets.VUE_APP_TMDB_API_KEY }}
+          VUE_APP_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          folder: dist
+          branch: gh-pages
