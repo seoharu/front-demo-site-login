@@ -22,11 +22,17 @@ jobs:
         run: npm install
 
       - name: Build
-        run:
-          echo "VUE_APP_KAKAO_CLIENT_ID=${{ vars.VUE_APP_KAKAO_CLIENT_ID }}" >> .env.production
-          npm run build:prod
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            npm run build:prod
+          elif [ "${{ github.ref_name }}" == "develop" ]; then
+            npm run build:dev
+          else
+            echo "No build executed"
+          fi
         env:
-          NODE_ENV: production
+          VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
+          VUE_APP_TMDB_API_KEY: ${{ secrets.VUE_APP_TMDB_API_KEY }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
