@@ -36,7 +36,6 @@ jobs:
           npm run build
           cp dist/index.html dist/404.html
         env:
-          VUE_APP_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           VUE_APP_KAKAO_CLIENT_ID: ${{ secrets.VUE_APP_KAKAO_CLIENT_ID }}
           VUE_APP_TMDB_API_KEY: ${{ secrets.VUE_APP_TMDB_API_KEY }}
 
