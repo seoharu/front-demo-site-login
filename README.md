@@ -37,7 +37,7 @@ npm install
 npm run serve
 
 development 버전 : npm run serve:dev
-productive 버전 : npm run serve:prod
+production 버전 : npm run serve:prod
 
 ```
 
@@ -46,7 +46,7 @@ productive 버전 : npm run serve:prod
 npm run build
 
 development 버전 : npm run build:dev
-productive 버전 : npm run build:prod
+production 버전 : npm run build:prod
 
 ```
 
