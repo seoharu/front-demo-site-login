@@ -35,11 +35,19 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve
+
+development 버전 : npm run serve:dev
+productive 버전 : npm run serve:prod
+
 ```
 
 ### Compiles and minifies for production
 ```
 npm run build
+
+development 버전 : npm run build:dev
+productive 버전 : npm run build:prod
+
 ```
 
 ### Lints and fixes files
